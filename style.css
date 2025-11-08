@@ -33,3 +33,6 @@ h1 {
   font-family: Helvetica, Arial, sans-serif;
   z-index: 1000;
 }
+.mapboxgl-ctrl-top-right {
+  z-index: 2000;
+}
