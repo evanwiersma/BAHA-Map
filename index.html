@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Lab 10 Geog 183</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css'>
-    <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.css" rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.min.js"></script>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <title>Historical Landmarks Around Berkeley, CA</title>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css">
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
 <body>
-  <h1> Historical Landmarks Around Berkeley, CA</h1>
+  <h1>Historical Landmarks Around Berkeley, CA</h1>
 
   <div id="map"></div>
-  <div id="source">Source: BAHA + City of Berkeley Landmarks (2024)</div>
 
-  <script src='https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js'></script>
-  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.min.js'></script>
+  <div id="source">
+    Source: <a href="https://berkeleyheritage.com/berkeley_landmarks/all_landmarks.html" target="_blank">
+      Berkeley Architectural Heritage Association — All Landmarks
+    </a>
+  </div>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.min.js"></script>
   <script src="./script.js"></script>
 </body>
-
-  
 </html>
