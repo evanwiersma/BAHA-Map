@@ -18,7 +18,7 @@ map.addControl(geocoder, 'top-right');
 map.on('load', function() {
     map.addSource('points-data', {
         type: 'geojson',
-        data: 'https://raw.githubusercontent.com/evanwiersma/BAHA-Map/refs/heads/main/data/183data.geojson'
+        data: https://raw.githubusercontent.com/evanwiersma/BAHA-Map/main/data/183data.geojson
     });
 
     map.addLayer({
