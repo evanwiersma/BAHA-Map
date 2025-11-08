@@ -6,6 +6,13 @@ const map = new mapboxgl.Map({
     center: [-122.27, 37.8],
     zoom: 9
 });
+// Add search bar (Mapbox Geocoder)
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    marker: false
+});
+map.addControl(geocoder, 'top-right');
 
 map.on('load', function() {
     map.addSource('points-data', {
