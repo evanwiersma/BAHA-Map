@@ -4,14 +4,14 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/evanwiersma/cmh9s81ce00qr01sre2df9sih',
     center: [-122.27, 37.8],
-    zoom: 12
+    zoom: 9
 });
 
+// Add search bar (Mapbox Geocoder)
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl,
-    marker: false,
-    placeholder: "Search landmarks..."
+    marker: false
 });
 map.addControl(geocoder, 'top-right');
 
@@ -33,9 +33,6 @@ map.on('load', function() {
         }
     });
 
-    map.on('mouseenter', 'points-layer', () => map.getCanvas().style.cursor = 'pointer');
-    map.on('mouseleave', 'points-layer', () => map.getCanvas().style.cursor = '');
-
     map.on('click', 'points-layer', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         const properties = e.features[0].properties;
@@ -50,9 +47,20 @@ map.on('load', function() {
                 ${properties.Notes ? `<p><strong>Notes:</strong> ${properties.Notes}</p>` : ''}
             </div>
         `;
+        
         new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(popupContent)
             .addTo(map);
+    });
+
+    // Change cursor to pointer when hovering over points
+    map.on('mouseenter', 'points-layer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change cursor back when leaving points
+    map.on('mouseleave', 'points-layer', () => {
+        map.getCanvas().style.cursor = '';
     });
 });
