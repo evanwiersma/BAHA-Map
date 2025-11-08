@@ -37,7 +37,6 @@ h1 {
   z-index: 1000;
 }
 
-/* Make search bar appear above map layers */
 .mapboxgl-ctrl-geocoder {
   z-index: 1000;
 }
