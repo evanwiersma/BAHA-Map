@@ -1,40 +1,21 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3dpbG1vdHQiLCJhIjoiY2s2bWRjb2tiMG1xMjNqcDZkbGNjcjVraiJ9.2nNOYL23A1cfZSE4hdC9ew';
 
 const map = new mapboxgl.Map({
-    container: 'map', // container ID
+    container: 'map',
     style: 'mapbox://styles/cwilmott/cmg5px11u00ef01sm3fr65ro0',
-    center: [-122.27, 37.8], // starting position [lng, lat]
-    zoom: 9 // starting zoom
+    center: [-122.27, 37.8],
+    zoom: 9
 });
-
-// Custom geocoder to search your points by landmark name
-function customGeocoder(query) {
-    const features = map.querySourceFeatures('points-data');
-    return features
-        .filter(f => f.properties.Landmark.toLowerCase().includes(query.toLowerCase()))
-        .map(f => ({
-            type: 'Feature',
-            geometry: f.geometry,
-            properties: { title: f.properties.Landmark }
-        }));
-}
-
-// Add the search bar
-const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl,
-    marker: false,
-    localGeocoder: customGeocoder,
-    placeholder: 'Search landmarks...'
-});
-map.addControl(geocoder, 'top-right');
 
 map.on('load', function() {
+
+    // Add your GeoJSON source
     map.addSource('points-data', {
         type: 'geojson',
         data: 'https://raw.githubusercontent.com/cwilmott/c183-webmap/refs/heads/main/data/183-data.geojson'
     });
 
+    // Add points layer
     map.addLayer({
         id: 'points-layer',
         type: 'circle',
@@ -46,6 +27,28 @@ map.on('load', function() {
             'circle-stroke-color': '#ffffff'
         }
     });
+
+    // --- Add custom geocoder AFTER source is loaded ---
+    function customGeocoder(query) {
+        const features = map.querySourceFeatures('points-data');
+        return features
+            .filter(f => f.properties.Landmark.toLowerCase().includes(query.toLowerCase()))
+            .map(f => ({
+                type: 'Feature',
+                geometry: f.geometry,
+                properties: { title: f.properties.Landmark }
+            }));
+    }
+
+    const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: false,
+        localGeocoder: customGeocoder,
+        placeholder: 'Search landmarks...'
+    });
+
+    map.addControl(geocoder, 'top-right');
 
     // Popup on click
     map.on('click', 'points-layer', (e) => {
@@ -69,7 +72,7 @@ map.on('load', function() {
             .addTo(map);
     });
 
-    // Cursor changes on hover
+    // Change cursor on hover
     map.on('mouseenter', 'points-layer', () => map.getCanvas().style.cursor = 'pointer');
     map.on('mouseleave', 'points-layer', () => map.getCanvas().style.cursor = '');
 });
