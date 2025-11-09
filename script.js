@@ -4,17 +4,26 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/evanwiersma/cmh9s81ce00qr01sre2df9sih', // your custom style
     center: [-122.27, 37.8],
-    zoom: 12
+    zoom: 9
 });
 
+// Add search bar (Mapbox Geocoder)
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    marker: false,
+    placeholder: 'Search landmarks...'
+});
+map.addControl(geocoder, 'top-right');
+
 map.on('load', function() {
-    // Add your GeoJSON source
+    // Add GeoJSON source
     map.addSource('points-data', {
         type: 'geojson',
         data: 'https://raw.githubusercontent.com/evanwiersma/BAHA-Map/refs/heads/main/data/183data.geojson'
     });
 
-    // Add the points layer
+    // Add points layer
     map.addLayer({
         id: 'points-layer',
         type: 'circle',
@@ -27,29 +36,29 @@ map.on('load', function() {
         }
     });
 
-    // Popups when clicking points
+    // Popups on click
     map.on('click', 'points-layer', (e) => {
-        const coords = e.features[0].geometry.coordinates.slice();
-        const props = e.features[0].properties;
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const properties = e.features[0].properties;
 
         const popupContent = `
             <div>
-                <h3>${props.Landmarks}</h3>
-                <p><strong>Address:</strong> ${props.Address}</p>
-                <p><strong>Architect & Date:</strong> ${props["Architect & Date"]}</p>
-                <p><strong>Designated:</strong> ${props.Designated}</p>
-                ${props["Link "] ? `<p><a href="${props["Link "]}" target="_blank">More Information</a></p>` : ''}
-                ${props.Notes ? `<p><strong>Notes:</strong> ${props.Notes}</p>` : ''}
+                <h3>${properties.Landmarks}</h3>
+                <p><strong>Address:</strong> ${properties.Address}</p>
+                <p><strong>Architect & Date:</strong> ${properties["Architect & Date"]}</p>
+                <p><strong>Designated:</strong> ${properties.Designated}</p>
+                ${properties["Link "] ? `<p><a href="${properties["Link "]}" target="_blank">More Information</a></p>` : ''}
+                ${properties.Notes ? `<p><strong>Notes:</strong> ${properties.Notes}</p>` : ''}
             </div>
         `;
 
         new mapboxgl.Popup()
-            .setLngLat(coords)
+            .setLngLat(coordinates)
             .setHTML(popupContent)
             .addTo(map);
     });
 
-    // Cursor changes on hover
+    // Change cursor on hover
     map.on('mouseenter', 'points-layer', () => map.getCanvas().style.cursor = 'pointer');
     map.on('mouseleave', 'points-layer', () => map.getCanvas().style.cursor = '');
 });
