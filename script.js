@@ -20,6 +20,7 @@ map.on('load', function() {
         type: 'geojson',
         data: 'https://raw.githubusercontent.com/evanwiersma/BAHA-Map/refs/heads/main/data/183data.geojson'
     });
+console.log(map.getSource('points-data'));
 
     map.addLayer({
         id: 'points-layer',
