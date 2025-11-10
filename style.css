@@ -24,14 +24,14 @@ h1 {
 }
 #credits {
   position: absolute;
-  bottom: 15px;                /* distance from bottom */
-  left: 15px;                  /* distance from left */
-  background: rgba(255, 255, 255, 0.85); /* semi-transparent background */
+  bottom: 15px;               
+  left: 15px;                
+  background: rgba(255, 255, 255, 0.85); 
   padding: 8px 12px;
   font-size: 12px;
   font-family: Helvetica, Arial, sans-serif;
   border-radius: 5px;
-  z-index: 1000;               /* sit above map layers */
+  z-index: 1000;            
   box-shadow: 0 1px 5px rgba(0,0,0,0.2);
 }
 
