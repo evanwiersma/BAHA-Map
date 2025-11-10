@@ -7,7 +7,6 @@ const map = new mapboxgl.Map({
     zoom: 9
 });
 
-// Add Mapbox search bar (geocoder)
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl,
@@ -17,13 +16,11 @@ const geocoder = new MapboxGeocoder({
 map.addControl(geocoder, 'top-right');
 
 map.on('load', function() {
-    // Add GeoJSON source
     map.addSource('points-data', {
         type: 'geojson',
         data: 'https://raw.githubusercontent.com/evanwiersma/BAHA-Map/refs/heads/main/data/183data.geojson'
     });
 
-    // Add points layer
     map.addLayer({
         id: 'points-layer',
         type: 'circle',
@@ -36,12 +33,10 @@ map.on('load', function() {
         }
     });
 
-    // Popup on click
     map.on('click', 'points-layer', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         const properties = e.features[0].properties;
 
-        // Safely handle the Link property with two spaces
         const link = properties["Link  "]?.trim();
 
         const popupContent = `
@@ -61,7 +56,6 @@ map.on('load', function() {
             .addTo(map);
     });
 
-    // Change cursor on hover
     map.on('mouseenter', 'points-layer', () => map.getCanvas().style.cursor = 'pointer');
     map.on('mouseleave', 'points-layer', () => map.getCanvas().style.cursor = '');
 });
