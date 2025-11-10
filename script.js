@@ -7,7 +7,7 @@ const map = new mapboxgl.Map({
     zoom: 9
 });
 
-// Add search bar (Mapbox Geocoder)
+// Add Mapbox search bar (geocoder)
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl,
@@ -36,10 +36,13 @@ map.on('load', function() {
         }
     });
 
-    // Popups on click
+    // Popup on click
     map.on('click', 'points-layer', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         const properties = e.features[0].properties;
+
+        // Safely handle the Link property with two spaces
+        const link = properties["Link  "]?.trim();
 
         const popupContent = `
             <div>
@@ -47,7 +50,7 @@ map.on('load', function() {
                 <p><strong>Address:</strong> ${properties.Address}</p>
                 <p><strong>Architect & Date:</strong> ${properties["Architect & Date"]}</p>
                 <p><strong>Designated:</strong> ${properties.Designated}</p>
-                ${properties["Link  "] ? `<p><a href="${properties["Link  "]}" target="_blank">More Information</a></p>` : ''}
+                ${link ? `<p><a href="${link}" target="_blank">More Information</a></p>` : ''}
                 ${properties.Notes ? `<p><strong>Notes:</strong> ${properties.Notes}</p>` : ''}
             </div>
         `;
